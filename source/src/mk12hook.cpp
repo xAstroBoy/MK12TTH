@@ -607,6 +607,49 @@ namespace MK12Hook::Hooks {
 		return true;
 	}
 
+
+	bool DisableHwidCheck()
+	{
+		printf("\n==DisableHwidCheck==\n");
+		if (SettingsMgr->pHwidCheck.empty())
+		{
+			printfRed("pHwidCheck Not Specified. Please Add Pattern to ini file!\n");
+			return false;
+		}
+
+		uint64_t* lpHwidCheckPattern = FindPattern(GetModuleHandleA(NULL), SettingsMgr->pHwidCheck);
+		if (!lpHwidCheckPattern)
+		{
+			printfError("Couldn't find HwidCheck Pattern");
+			return false;
+		}
+		if (SettingsMgr->iLogLevel)
+			printf("HwidCheck Pattern found at: %p\n", lpHwidCheckPattern);
+
+		// Calculate patch location (call instruction start)
+		uint8_t* patchLocation = (uint8_t*)lpHwidCheckPattern;
+
+		// Prepare NOP patch (5 bytes to replace the call)
+		const uint8_t nopPatch[5] = { 0x90, 0x90, 0x90, 0x90, 0x90 };
+
+		DWORD oldProtect;
+		if (!VirtualProtect(patchLocation, sizeof(nopPatch), PAGE_EXECUTE_READWRITE, &oldProtect))
+		{
+			printfError("VirtualProtect failed: %lu\n", GetLastError());
+			return false;
+		}
+
+		// Apply NOP patch
+		memcpy(patchLocation, nopPatch, sizeof(nopPatch));
+		VirtualProtect(patchLocation, sizeof(nopPatch), oldProtect, &oldProtect);
+
+		if (SettingsMgr->iLogLevel)
+			printf("HwidCheck Pattern found at: %p\n", lpHwidCheckPattern);
+
+		printfSuccess("HwidCheck Patched");
+		return true;
+	}
+
 	bool FNameToStrWithIdLoader(Trampoline* GameTramp)
 	{
 		printf("\n==ProxyFPathIdLoader==\n");

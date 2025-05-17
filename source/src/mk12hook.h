@@ -24,6 +24,7 @@ namespace MK12Hook {
 		bool DisableChunkSigCheck();
 		bool DisableTOCSigCheck();
 		bool DisablePakTOCCheck();
+		bool DisableHwidCheck();
 		bool UNameTableGetter();
 		bool FNameToStrWithIdLoader(Trampoline*);
 		bool FNameToStrNoIdLoader(Trampoline*);

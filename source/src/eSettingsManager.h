@@ -25,6 +25,7 @@ public:
 	bool bDisableTOCSigCheck;
 	bool bDisableChunkSigCheck;
 	bool bDisablePakTOCCheck;
+	bool bDisableHwidCheck;
 	bool bPatchCurl;
 	bool bFNameToStrHook;
 	bool bUNameGetter;
@@ -34,6 +35,7 @@ public:
 	bool bEnableFloydTracking;
 	bool bEnableProfileGetter;
 
+
 	// Addresses
 
 	// Patterns
@@ -41,6 +43,7 @@ public:
 	std::string pSigWarn;
 	std::string pTocCheck;
 	std::string pPakTocCheck;
+	std::string pHwidCheck;
 	std::string pChunkSigCheck;
 	std::string pChunkSigCheckFunc;
 	std::string pUNameObjGetPat;

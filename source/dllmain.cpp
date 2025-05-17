@@ -91,6 +91,10 @@ void PreGameHooks()
 	{
 		HookMetadata::ActiveModsMap["bAntiPakTocCheck"]		= MK12Hook::Hooks::DisablePakTOCCheck();
 	}
+	if (SettingsMgr->bDisableHwidCheck)
+	{
+		HookMetadata::ActiveModsMap["bAntiHwidCheck"] = MK12Hook::Hooks::DisableHwidCheck();
+	}
 	if (SettingsMgr->bFNameToStrHook)
 	{
 		RegisterHacks::EnableRegisterHacks();
@@ -301,6 +305,7 @@ void MK12HookPlugin::TabFunction()
 			{ "Chunk Signature",			HookMetadata::ActiveModsMap["bAntiChunkSigCheck"] },
 			{ "TOC Signature",				HookMetadata::ActiveModsMap["bAntiTocSigCheck"] },
 			{ "Pak TOC Signature",			HookMetadata::ActiveModsMap["bAntiPakTocCheck"] },
+			{"Hwid Check Signature",        HookMetadata::ActiveModsMap["bAntiHwidCheck"]},
 			{ "Signature Warning",			HookMetadata::ActiveModsMap["bAntiSigWarn"] },
 
 			{ "FString - ID Loader",		HookMetadata::ActiveModsMap["bFPathIdLoader"] },
